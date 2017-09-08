@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <title>Plato - test/contador_test.spect.js</title>
+
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="">
+  <meta name="author" content="">
+
+  <!--[if lt IE 9]>
+  <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+  <![endif]-->
+
+  <link href="../../assets/css/vendor/morris.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/bootstrap.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/font-awesome.css" rel="stylesheet">
+  <link href="../../assets/css/vendor/codemirror.css" rel="stylesheet">
+  <link href="../../assets/css/plato.css" rel="stylesheet">
+  <link href="../../assets/css/plato-file.css" rel="stylesheet">
+
+</head>
+
+<body>
+
+<div class="navbar navbar-fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="http://github.com/es-analysis/plato">Plato on Github</a>
+    <ul class="nav navbar-nav">
+      <li>
+        <a href="../../index.html">Report Home</a>
+      </li>
+    </ul>
+  </div>
+</div>
+
+<div class="jumbotron">
+  <div class="container">
+    <h1>test/contador_test.spect.js</h1>
+  </div>
+</div>
+
+<div class="container aggregate-stats">
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Maintainability <a href="http://blogs.msdn.com/b/codeanalysis/archive/2007/11/20/maintainability-index-range-and-meaning.aspx"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="A value between 0 and 100 that represents the relative ease of maintaining the code. A high value means better maintainability." data-original-title="Maintainability Index"  data-container="body"></i></a></h2>
+      <p class="stat">76.70</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Lines of code <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h2>
+      <p class="stat">394</p>
+    </div>
+  </div>
+  <div class="row historical">
+    <div class="col-md-6">
+      <p id="chart_historical_maint" class="chart"></p>
+    </div>
+    <div class="col-md-6">
+      <p id="chart_historical_sloc" class="chart"></p>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h2 class="header">Difficulty  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="The difficulty measure is related to the difficulty of the program to write or understand." data-original-title="Difficulty" data-container="body"></i></a></h2>
+      <p class="stat">21.17</p>
+    </div>
+    <div class="col-md-6">
+      <h2 class="header">Estimated Errors  <a href="http://en.wikipedia.org/wiki/Halstead_complexity_measures"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Halstead's delivered bugs is an estimate for the number of errors in the implementation." data-original-title="Delivered Bugs" data-container="body"></i></a></h2>
+      <p class="stat">0.71</p>
+    </div>
+  </div>
+</div>
+
+<div class="container charts">
+  <div class="row">
+    <h2 class="header">Function weight</h2>
+  </div>
+  <div class="row">
+    <div class="col-md-6">
+      <h3 class="chart-header">By Complexity <a href="http://en.wikipedia.org/wiki/Cyclomatic_complexity"><i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="This metric counts the number of distinct paths through a block of code. Lower values are better." data-original-title="Cyclomatic Complexity" data-container="body"></i></a></h3>
+      <div id="fn-by-complexity" class="stat"></div>
+    </div>
+    <div class="col-md-6">
+      <h3 class="chart-header">By SLOC  <i class="icon icon-info-sign" rel="popover" data-placement="top" data-trigger="hover" data-content="Source Lines of Code / Logical Lines of Code" data-original-title="SLOC/LSLOC" data-container="body"></i></h3>
+      <div id="fn-by-sloc" class="stat"></div>
+    </div>
+  </div>
+</div>
+
+<div class="container">
+  <div class="row">
+    <textarea id="file-source" class="col-md-12">const c_cont = require(&#039;../contadorCodigo/contador&#039;);
+const c_pila=require(&#039;../pila/pila&#039;)
+const c_chai = require(&#039;chai&#039;);
+const c_expect= c_chai.expect;
+const c_assert= c_chai.assert;
+
+let o_contador= new c_cont();
+let o_pilaPrueba= new c_pila();
+const p_codigo= `&#039;use strict&#039;
+const c_pila = require(&#039;../pila/pila&#039;);
+const c_cuentaMetodo = require(&#039;./cuentaMetodo&#039;);
+module.exports= class c_contadorClases{
+  constructor(){
+    let o_stack= new c_pila();
+    let o_class= new c_pila();
+    this.o_stack= o_stack;
+    this.o_class= o_class;  }
+  mr_informacionClases(p_codigoPrograma){
+    if (typeof p_codigoPrograma== &#039;string&#039;) {
+      let n_fin, n_i, n_j, n_codi=0;
+      let n_tam= &quot;class&quot;.length+1;
+      let s_clase, s_nombreClase; let c_jsonMetodo=[];
+      let o_infoMetodos; let o_metodo;
+      let n_total=0; let n_totalMetodo=0;
+      if(p_codigoPrograma.indexOf(&quot;class&quot;)!= -1){
+          for (n_i = 0; n_i &lt; p_codigoPrograma.length; n_i++) {
+            if (p_codigoPrograma[n_i]==&quot;{&quot;) {
+            this.o_stack.mr_push(&quot;{&quot;); //apila cuando se abre una llave
+            }else if (p_codigoPrograma[n_i]==&quot;}&quot;) {
+              this.o_stack.mr_pop(); //desapila cuando encuenta un cierre de llave } }
+              if (this.o_stack.mr_size()==0 &amp;&amp; n_codi!= -1) {//si la pila está vacía es porque encontró el fin de una clase en la posicion de n_i
+                n_fin= n_i;
+                n_codi= p_codigoPrograma.indexOf(&quot;class&quot;,n_j); //busca la palabra class en el código a partir de donde se encontró la ultima vez
+                s_clase= p_codigoPrograma.substring(n_codi,n_fin+1);
+                n_j= n_fin;
+                s_nombreClase= p_codigoPrograma.substring(n_codi+n_tam, p_codigoPrograma.indexOf(&quot;{&quot;,n_codi)); //obtine el nombre de la clase desde el fin de la palabra class hasta la primer llave que encuentra
+                o_metodo= new c_cuentaMetodo(s_clase).o_total;
+                c_jsonMetodo = JSON.stringify(o_metodo);
+                for (let i = 0; i &lt; o_metodo.length; i++) {
+                    n_total = n_total + parseInt(o_metodo[i][&quot;lineas&quot;]);  }
+                n_codi= p_codigoPrograma.indexOf(&quot;class&quot;,n_j);
+                n_totalMetodo= n_totalMetodo + n_total;
+                o_infoMetodos={ nombreClase: s_nombreClase, informacionClase: c_jsonMetodo, cantidadMetodos: o_metodo.length , totalLineasMetodos: n_total};
+                n_total=0;
+                this.o_class.mr_push(o_infoMetodos);}
+            }  }this.o_class.mr_push({lineasTotalMetodos: n_totalMetodo}); }else{
+          this.o_class.mr_push(&quot;noClass&quot;);
+          return this.o_class;         }
+         return this.o_class;  }else{
+      this.o_class.mr_push(&quot;noString&quot;);
+      return this.o_class;
+    } }
+  }
+
+&#039;use strict&#039;
+module.exports = class c_contadorMetodos{
+  constructor(p_cod){
+    p_cod= this.mr_achicartexto(p_cod);
+    p_cod=this.mr_quitarComentarios(p_cod);
+    let total=this.mr_contarMetodos(p_cod);
+    this.o_total =  total;
+  }
+
+/**Este metodo retorna un nuevo string, solo que este nuevo string estará libre de
+; y saltos de linea;
+**/
+  mr_stringCut(p_str,p_limit){
+    if(p_str===null||p_str===undefined){
+      return null;
+    }
+    else{
+      if(p_limit===null||p_limit===undefined){
+        return null;
+      }
+      else{
+        if(isNaN(p_limit)){
+          return null;
+        }
+        else{
+          if( !p_str.match(/[p]/))
+          {
+            return p_str;
+          }
+          let s_words = (p_str.split(/[i]/)).slice(p_limit,p_limit+1),
+              s_output = s_words.join(&#039;i&#039;);
+
+          return s_output;
+        }
+      }
+    }
+  }
+  //----------------------------------------------------------------------------------------------------
+  /**Este metodo retorna verdadero si el string ingresado es una cadena de espacios en blanco
+  de lo contrario retorna false
+  **/
+  mr_espaciosEnBlanco(p_linea){
+    if(p_linea===null||p_linea===undefined || p_linea===&#039;&#039;){
+      return null;
+    }
+    else{
+      if(typeof p_linea ===&#039;string&#039;){
+        for(let j =0; j&lt;p_linea.length; j++){
+          if(p_linea[j]!== &#039; &#039;){
+            return false;
+          }
+        }
+      }
+      else{
+        return null;
+      }
+    }
+    return true;
+  }
+  //----------------------------------------------------------------------------------------------------
+  /**Este metodo recibe un string y retorna solo una linea del string, esta linea estara libre de saltos de linea
+  **/
+  mr_buscar(p_str,p_limit){
+    if(p_str===null||p_str===undefined||p_str===&#039;&#039;){
+      return null;}
+    else{
+      if(isNaN(p_limit)){
+        return null;
+      }
+      else{
+        if( !p_str.match(&#039;i&#039;) )
+        {
+          return p_str;
+        }
+        let s_words = (p_str.split(&#039;i&#039;)).slice(p_limit,p_limit+1),
+            s_output = s_words.join(&#039;i&#039;);
+        return s_output;
+      }
+    }
+    return null;
+  }
+  //----------------------------------------------------------------------------------------------------
+  mr_achicartexto(p_text){
+    if(p_text===null||p_text===undefined||p_text===&#039;&#039;){
+      return null;}
+    else{
+      let s_completo=&#039;&#039;;
+      let i=0;
+      while(this.mr_stringCut(p_text,i)!==&#039;&#039; ||this.mr_stringCut(p_text,i+1)!==&#039;&#039;||this.mr_stringCut(p_text,i+2)!==&#039;&#039;||this.mr_stringCut(p_text,i+3)!==&#039;&#039;){
+        let s_contenedor = this.mr_stringCut(p_text,i);//se obtiene una sola linea de codigo
+        if(s_contenedor !==&#039;&#039; ){
+          if(s_contenedor.length&gt;1){
+            if(this.mr_espaciosEnBlanco(s_contenedor)===false){
+             s_completo=s_completo +&#039;i&#039; + s_contenedor;
+            }
+          }
+        }
+        i=i+1;
+      }
+      return s_completo;
+    }
+    return null;
+  }
+  //----------------------------------------------------------------------------------------------------
+  mr_quitarComentarios(p_texto){
+    let l=1;
+    let s_textoFinal=&#039;&#039;;
+    while(this.mr_buscar(p_texto,l)!==&#039;&#039;){
+      let s_linea= this.mr_buscar(p_texto,l);
+      let cont=0;
+      while(s_linea[cont]===&#039; &#039;){
+        cont=cont+1;
+      }
+      if(s_linea[cont]===&#039;/&#039;){
+        if(s_linea[cont+1]===&#039;*&#039;){
+          let fin=l;
+          while(this.mr_buscar(p_texto,fin)[(this.mr_buscar(p_texto,fin).length)-1]!==&#039;/&#039;){
+            fin=fin+1;
+          }
+          l=fin;
+        }
+      }
+      else{
+        s_textoFinal=s_textoFinal +&#039;i&#039; + s_linea;
+      }
+      l=l+1;
+    }
+    return s_textoFinal;
+  }
+  //----------------------------------------------------------------------------------------------------
+  mr_contarMetodos(codigo){
+    if(codigo===null || codigo===undefined || codigo ===&#039;&#039;){
+      return &#039;&#039;;
+    }else{
+      let contador=1;
+      let datos=[];
+      let totalLineasMetodo=0;
+      let nombreMetodo=&#039;&#039;;
+      let nombrecontrol=&#039;&#039;;
+      let totalLineas=&#039;&#039;;
+      while(this.mr_buscar(codigo,contador)!==&#039;&#039;){
+        let s_lineaCodigo= this.mr_buscar(codigo,contador);
+        let contador2=0;
+        if(s_lineaCodigo[0]===&#039; &#039;){
+          while(s_lineaCodigo[contador2]===&#039; &#039;){
+            contador2=contador2+1;
+          }
+        }
+        if(s_lineaCodigo[contador2]===&#039;m&#039;){
+          if(nombreMetodo!==&#039;&#039;){
+            totalLineas=totalLineasMetodo;
+          }
+          totalLineasMetodo=0;
+          nombreMetodo=&#039;&#039;;
+          let controlador=0;
+          while(controlador&lt;s_lineaCodigo.length &amp;&amp;s_lineaCodigo[controlador]!==&#039;(&#039;){
+            nombreMetodo=nombreMetodo+s_lineaCodigo[controlador];
+            controlador=controlador+1;
+          }
+        }
+        totalLineasMetodo++;
+        if(nombreMetodo!==&#039;&#039;){
+          if(nombreMetodo!==nombrecontrol){
+            datos.push({Metodo:nombrecontrol,lineas:totalLineas});
+          }
+        }
+        nombrecontrol=nombreMetodo;
+        contador=contador+1;
+      }
+      datos.push({Metodo:nombreMetodo,lineas:totalLineasMetodo});
+      if(datos[0].metodo===&#039;&#039;){
+        for(let x=0;x&lt;datos.length;x++){
+          datos[x]=datos[x+1];
+        }
+      }
+      datos.pop();
+      return datos;
+    }
+    return &#039;&#039;;
+  }
+}`;
+
+const p_codigo1=`const node = require(&#039;../ListasLigadas/nodo&#039;);
+const list = require(&#039;../ListasLigadas/lista&#039;);
+
+module.exports= class operaciones{
+  constructor(numeros){
+    this.numeros= numeros
+  }
+  convertir_lista(numeros){
+    let listaPrueba=new list();
+    let n= numeros.length
+    for (var i=0; i&lt; n; i++) {
+      let aux =new node(&#039;&#039;,numeros[i]);
+      listaPrueba.insertar(aux);
+     }
+    return listaPrueba
+  }
+  edia(listaNumeros){
+    let jsonres=[]
+    jsonres= listaNumeros.recorrer();
+    let suma= jsonres.total
+    let n= jsonres.n
+    let med= suma/n;
+    return med
+  }
+  varianza(listaNumeros, media){ //modificar a lista
+    var resta=0
+    var sum=0
+    let jsonres=[]
+    jsonres= listaNumeros.recorrer();
+    let suma= jsonres.total;
+    let num= jsonres.cadena;
+    let n= jsonres.n;
+    for (var i=0; i&lt; n; i++) {
+      sum = sum+ Math.pow(num[i]-media,2)
+    }
+    var std= Math.pow(sum/(n),0.5)
+    return std
+  }
+}
+const nodo = require(&#039;./nodo&#039;);
+module.exports=class lista{
+constructor(){
+  var aux=new nodo(&#039;&#039;,&#039;&#039;);
+  this.primero=aux;
+  this.ultimo=aux;
+}
+ insertar(newnodo){
+   if(!isNaN(newnodo.dato)){
+    if (this.primero.dato===&#039;&#039; &amp;&amp; this.primero.liga==&#039;&#039; ) {
+        this.primero.dato=newnodo.dato;
+        return true;
+    }else {
+        let aux = new nodo(&#039;&#039;,newnodo.dato);
+        var aux2=this.ultimo;
+        aux2.liga=aux;
+        this.ultimo=aux;
+        return true;
+      }
+    }
+    return false;
+  }
+  recorrer(){
+     let aux = this.primero;
+     let i=0;
+     let suma=0;
+     let str= &#039;&#039;;
+     while (aux.liga!=&#039;&#039;) {
+       suma= suma + parseInt(aux.dato);
+       i++;
+       str= str + aux.dato;
+       aux=aux.liga;
+     }
+     if(this.primero != this.ultimo){
+       i = i + 1;
+       str= str + aux.dato;
+       suma = suma + parseInt(aux.dato);
+     }
+     var res={
+       n:i,
+       total:suma,
+       cadena: str
+
+     }
+     return res;
+  }
+}
+&#039;use strict&#039;
+module.exports= class nodo{
+  constructor(liga,dato){
+    this.liga=liga;
+    this.dato=dato;
+  }
+}`;
+
+
+describe(&#039;Probando clase contador&#039;, () =&gt; {
+  describe(&#039;&quot;Probando constructor&quot;&#039;, () =&gt; {
+    it(&#039;El constructor de contador debería ser un metodo[Funcion]&#039;, () =&gt; {
+      c_expect(c_cont).to.be.a(&#039;function&#039;);
+    }),
+    it(&#039;El constructor de contador crea dos pilas&#039;, () =&gt;{
+      o_contador= new c_cont();
+      c_expect(o_contador.o_stack).to.be.an(typeof o_pilaPrueba.stack);
+      c_expect(o_contador.o_class).to.be.an(typeof o_pilaPrueba.stack);
+    })
+  }),
+  describe(&#039;&quot;Probando informacion de las clases&quot;&#039;, () =&gt; {
+    it(&#039;informacionClases debería ser un metodo[Funcion]&#039;, () =&gt; {
+      o_contador= new c_cont();
+      c_expect(o_contador.mr_informacionClases).to.be.a(&#039;function&#039;);
+    }),
+    it(&#039;informacionClases debe tener como parámetro un string&#039;, () =&gt;{
+      o_contador= new c_cont();
+       let o_prueba=o_contador.mr_informacionClases(p_codigo);
+       let b_control;
+       if (o_prueba.stack[0]==&#039;noString&#039;) {
+         b_control= false;
+       }else {
+         b_control= true;
+       }
+       c_assert.isTrue(b_control, &quot;el parámetro debe ser un string&quot;);
+    }),
+    it(&#039;El parámetro de informacionClases debe tener clases en su contenido&#039;, () =&gt;{
+      o_contador= new c_cont();
+       let o_prueba=o_contador.mr_informacionClases(p_codigo);
+       let b_control;
+       if (o_prueba.stack[0]==&#039;noClass&#039;) {
+         b_control= false;
+       }else {
+         b_control= true;
+       }
+       c_assert.isTrue(b_control, &quot;El programa ingresado no tiene clases&quot;);
+    }),
+    it(&#039;informacionClases debe retornar una pila&#039;, () =&gt;{
+      o_contador= new c_cont();
+       let o_prueba=o_contador.mr_informacionClases(p_codigo);
+       c_expect(o_prueba).to.be.an(typeof o_pilaPrueba.stack);
+    }),
+    it(&#039;informacionClases debería retornar la cantidad correcta de métodos&#039;, () =&gt; {
+      o_contador= new c_cont();
+      let o_prueba=o_contador.mr_informacionClases(p_codigo);
+      let n_cantidad= o_prueba.stack;
+      let n_total=0;
+      n_cantidad.forEach(function(n){
+        if (n.cantidadMetodos!==undefined) {
+            n_total= n_total+ parseInt(n.cantidadMetodos);
+        }
+      });
+      c_expect(n_total).to.be.equal(7);
+    }),
+    it(&#039;informacionClases debería retornar la cantidad correcta de clases&#039;, () =&gt; {
+      o_contador= new c_cont();
+      let o_prueba=o_contador.mr_informacionClases(p_codigo);
+      let n_cantidad= o_prueba.stack.length-1;
+      c_expect(n_cantidad).to.be.equal(2);
+    })
+  })
+})</textarea>
+  </div>
+</div>
+
+<footer class="footer">
+  <div class="container">
+    <p>.</p>
+  </div>
+</footer>
+
+<script type="text/html" id="complexity-popover-template">
+  <div class="complexity-notice">
+    Complexity : {{ cyclomatic }} <br>
+    Length : {{ halstead.length }} <br>
+    Difficulty : {{ halstead.difficulty.toFixed(2) }} <br>
+    Est # bugs : {{ halstead.bugs.toFixed(2) }}<br>
+  </div>
+</script>
+
+<script type="text/javascript" src="../../assets/scripts/bundles/core-bundle.js"></script>
+<script type="text/javascript" src="../../assets/scripts/bundles/codemirror.js"></script>
+<script type="text/javascript" src="../../assets/scripts/codemirror.markpopovertext.js"></script>
+<script type="text/javascript" src="report.js"></script>
+<script type="text/javascript" src="report.history.js"></script>
+<script type="text/javascript" src="../../assets/scripts/plato-file.js"></script>
+</body>
+</html>
